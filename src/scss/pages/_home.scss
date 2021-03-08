@@ -1,0 +1,16 @@
+.home {
+  @include flex-center;
+  flex-direction: column;
+  &__title {
+    font-family: $primary-font;
+  }
+
+  &__btn-group {
+    @include flex-center;
+    flex-direction: column;
+    & button {
+      margin: 0.3rem;
+      @include button;
+    }
+  }
+}

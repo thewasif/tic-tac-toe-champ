@@ -1,0 +1,17 @@
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin button {
+  font-family: $primary-font;
+  background-color: $primary-color;
+  border: none;
+  border-radius: 20px;
+  outline: none;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+  color: white;
+  padding: 0.4rem 0.6rem;
+  width: 100%;
+}
