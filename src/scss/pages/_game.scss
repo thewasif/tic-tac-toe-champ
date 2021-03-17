@@ -1,0 +1,17 @@
+.game {
+  @include flex-center;
+  flex-direction: column;
+  &__board {
+    display: grid;
+    grid-template-columns: repeat(3, 70px);
+    grid-template-rows: repeat(3, 70px);
+    margin-top: 3rem;
+
+    &--box {
+      border: solid 1px #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
