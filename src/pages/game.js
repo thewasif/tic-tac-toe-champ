@@ -1,6 +1,6 @@
 import { game as gameBoard } from '../lib/game';
 
-function game() {
+function Game() {
   return (
     <div className='game'>
       <h3>
@@ -27,4 +27,4 @@ function game() {
   );
 }
 
-export default game;
+export default Game;
