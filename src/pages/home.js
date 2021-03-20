@@ -1,9 +1,13 @@
+import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+
 import { createRoom, joinRoom } from '../functions/index';
 import { game } from '../lib/game';
+import { GlobalContext } from '../context/GlobalContext';
 
 function Home() {
   const history = useHistory();
+  const { setUsername } = useContext(GlobalContext);
 
   const onCreateRoomClick = async () => {
     let name = prompt('What is your name?');
@@ -15,6 +19,7 @@ function Home() {
         ...gameObj,
         first_player: name,
       });
+      await setUsername(name);
       history.push(`/game/${roomID}`);
     } catch (error) {
       console.log(error);
@@ -27,6 +32,7 @@ function Home() {
 
     try {
       let response = await joinRoom(roomID, name);
+      await setUsername(name);
       history.push(`/game/${response.roomID}`);
     } catch (error) {
       console.log(error);

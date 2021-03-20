@@ -6,7 +6,7 @@ class GameBoard {
     this.turn = PLAYER_ONE;
   }
 
-  board = [null, null, null, null, null, null, null, null, null];
+  board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
   static winner = null;
   draw = false;
 
@@ -31,7 +31,7 @@ class GameBoard {
   mark(position) {
     if (this.winner) throw Error('Winner has been declared!');
 
-    if (!this.board.includes(null)) {
+    if (!this.board.includes(0)) {
       this.draw = true;
 
       throw new Error('There is a draw');
