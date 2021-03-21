@@ -1,14 +1,15 @@
-const PLAYER_ONE = 'player_one';
-const PLAYER_TWO = 'player_two';
-
-class GameBoard {
-  constructor() {
-    this.turn = PLAYER_ONE;
+export class GameBoard {
+  constructor(player_one, player_two) {
+    this.PLAYER_ONE = player_one;
+    this.PLAYER_TWO = player_two;
+    this.turn = this.PLAYER_ONE;
   }
 
   board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
   static winner = null;
   draw = false;
+  PLAYER_ONE = null;
+  PLAYER_TWO = null;
 
   get turn() {
     return this._turn;
@@ -37,7 +38,7 @@ class GameBoard {
       throw new Error('There is a draw');
     }
 
-    const mark = this.turn === PLAYER_ONE ? 'x' : 'o';
+    const mark = this.turn === this.PLAYER_ONE ? 'x' : 'o';
 
     if (!this.board[position - 1]) this.board[position - 1] = mark;
     else throw new Error('Location already marked!');
@@ -45,9 +46,9 @@ class GameBoard {
     this.checkWinner();
 
     this.turn =
-      this.turn === PLAYER_ONE
-        ? (this.turn = PLAYER_TWO)
-        : (this.turn = PLAYER_ONE);
+      this.turn === this.PLAYER_ONE
+        ? (this.turn = this.PLAYER_TWO)
+        : (this.turn = this.PLAYER_ONE);
 
     return this.board;
   }
@@ -66,7 +67,7 @@ class GameBoard {
 
     for (let e of winner_states) {
       const condition = e;
-      const { board } = game;
+      const { board } = this;
       const a = board[condition[0]];
       const b = board[condition[1]];
       const c = board[condition[2]];
@@ -83,7 +84,3 @@ class GameBoard {
     }
   }
 }
-
-let game = new GameBoard();
-
-export { game };
