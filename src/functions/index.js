@@ -15,7 +15,7 @@ const joinRoom = async (roomID, name) => {
   const snap = await database.ref().child(roomID).get();
 
   let gameObj = snap.val();
-  gameObj.second_player = name;
+  gameObj.PLAYER_TWO = name;
 
   return new Promise((resolve, reject) => {
     database

@@ -1,5 +1,5 @@
 import { useEffect, useContext, useState } from 'react';
-import { game } from '../lib/game';
+import { GameBoard } from '../lib/game';
 import { GlobalContext } from '../context/GlobalContext';
 import { database } from '../.firebase';
 
@@ -21,10 +21,26 @@ function Game(props) {
   }, [props.match.params.id, state.username]);
 
   const mark = (index) => {
-    game.board = remoteData.board ? remoteData.board : [];
-    game.turn = remoteData._turn;
+    if (remoteData._turn !== state.username) {
+      console.log('It is not your turn');
+      return;
+    }
+
+    const { PLAYER_ONE, PLAYER_TWO } = remoteData;
+
+    let game = new GameBoard(PLAYER_ONE, PLAYER_TWO);
+    game.board = remoteData.board;
+    game._turn = remoteData._turn;
+    game.winner = remoteData.winner ? remoteData.winner : null;
+    game.draw = remoteData.draw;
     game.mark(index);
-    console.log(JSON.parse(JSON.stringify(game)));
+
+    const dataToBeSent = JSON.parse(JSON.stringify(game));
+    database
+      .ref(props.match.params.id)
+      .set(dataToBeSent)
+      .then((res) => console.log('res', res))
+      .catch((e) => console.log(e));
   };
 
   return (
@@ -34,12 +50,14 @@ function Game(props) {
       </h3>
       <h4>Room ID: {roomID}</h4>
       <div className='game__board'>
-        {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((e, index) => (
+        {remoteData?.board.map((e, index) => (
           <div
-            key={e}
+            key={index}
             className='game__board--box'
             onClick={() => mark(index + 1)}
-          ></div>
+          >
+            {e === 0 ? '' : e}
+          </div>
         ))}
       </div>
     </div>

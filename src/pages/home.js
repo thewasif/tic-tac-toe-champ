@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { createRoom, joinRoom } from '../functions/index';
-import { game } from '../lib/game';
+import { GameBoard } from '../lib/game';
 import { GlobalContext } from '../context/GlobalContext';
 
 function Home() {
@@ -11,13 +11,13 @@ function Home() {
 
   const onCreateRoomClick = async () => {
     let name = prompt('What is your name?');
-    let gameObj = JSON.parse(JSON.stringify(game));
+    let gameObj = JSON.parse(JSON.stringify(new GameBoard(name, null)));
     gameObj._turn = name;
 
     try {
       let { roomID } = await createRoom({
         ...gameObj,
-        first_player: name,
+        PLAYER_ONE: name,
       });
       await setUsername(name);
       history.push(`/game/${roomID}`);
