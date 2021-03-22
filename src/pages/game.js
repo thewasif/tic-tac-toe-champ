@@ -2,6 +2,7 @@ import { useEffect, useContext, useState } from 'react';
 import { GameBoard } from '../lib/game';
 import { GlobalContext } from '../context/GlobalContext';
 import { database } from '../.firebase';
+import { sendData } from '../functions';
 
 function Game(props) {
   const { state } = useContext(GlobalContext);
@@ -10,17 +11,13 @@ function Game(props) {
   const roomID = props.match.params.id;
 
   useEffect(() => {
+    // get live data from remote server and update it in state
     database.ref(props.match.params.id).on('value', (snap) => {
-      const remoteObj = snap.val();
-      setRemoteData(remoteObj);
-
-      if (remoteObj._turn === state.username) {
-        console.log('YOUR TURN!!!');
-      }
+      setRemoteData(snap.val());
     });
-  }, [props.match.params.id, state.username]);
+  }, [props.match.params.id]);
 
-  const mark = (index) => {
+  const mark = async (index) => {
     if (remoteData._turn !== state.username) {
       console.log('It is not your turn');
       return;
@@ -32,15 +29,31 @@ function Game(props) {
     game.board = remoteData.board;
     game._turn = remoteData._turn;
     game.winner = remoteData.winner ? remoteData.winner : null;
-    game.draw = remoteData.draw;
+
     game.mark(index);
 
-    const dataToBeSent = JSON.parse(JSON.stringify(game));
-    database
-      .ref(props.match.params.id)
-      .set(dataToBeSent)
-      .then((res) => console.log('res', res))
-      .catch((e) => console.log(e));
+    const data = JSON.parse(JSON.stringify(game));
+
+    try {
+      await sendData(roomID, data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const restart = async () => {
+    const data = {
+      ...remoteData,
+      board: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      winner: null,
+      draw: false,
+    };
+
+    try {
+      await sendData(roomID, data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -48,6 +61,12 @@ function Game(props) {
       <h3>
         Turn: <i>Player One</i>
       </h3>
+      {remoteData?.winner ? <h4>{remoteData.winner} is Winner</h4> : null}
+      {remoteData?.draw ? <h4>It's a draw :(</h4> : null}
+      {remoteData?.winner || remoteData?.draw ? (
+        <button onClick={restart}>Restart</button>
+      ) : null}
+
       <h4>Room ID: {roomID}</h4>
       <div className='game__board'>
         {remoteData?.board.map((e, index) => (

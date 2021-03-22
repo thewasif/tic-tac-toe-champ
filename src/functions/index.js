@@ -26,4 +26,14 @@ const joinRoom = async (roomID, name) => {
   });
 };
 
-export { createRoom, joinRoom };
+const sendData = async (roomID, data) => {
+  return new Promise((resolve, reject) => {
+    database
+      .ref(roomID)
+      .set(data)
+      .then(() => resolve(roomID))
+      .catch((error) => reject(error));
+  });
+};
+
+export { createRoom, joinRoom, sendData };
