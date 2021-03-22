@@ -1,12 +1,15 @@
 import { useEffect, useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { GameBoard } from '../lib/game';
 import { GlobalContext } from '../context/GlobalContext';
 import { database } from '../.firebase';
-import { sendData } from '../functions';
+import { leaveRoom, sendData } from '../functions';
 
 function Game(props) {
   const { state } = useContext(GlobalContext);
   const [remoteData, setRemoteData] = useState(null);
+
+  const history = useHistory();
 
   const roomID = props.match.params.id;
 
@@ -56,11 +59,21 @@ function Game(props) {
     }
   };
 
+  const leave = async () => {
+    try {
+      await leaveRoom(roomID, state.username);
+      history.push('/');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className='game'>
       <h3>
         Turn: <i>Player One</i>
       </h3>
+      <button onClick={leave}>Leave Room</button>
       {remoteData?.winner ? <h4>{remoteData.winner} is Winner</h4> : null}
       {remoteData?.draw ? <h4>It's a draw :(</h4> : null}
       {remoteData?.winner || remoteData?.draw ? (
