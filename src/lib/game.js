@@ -30,18 +30,16 @@ export class GameBoard {
   }
 
   mark(position) {
-    if (this.winner) throw Error('Winner has been declared!');
-
-    if (!this.board.includes(0)) {
-      this.draw = true;
-
-      throw new Error('There is a draw');
-    }
+    if (this.winner || this.draw) throw Error('Game has been ended!');
 
     const mark = this.turn === this.PLAYER_ONE ? 'x' : 'o';
 
     if (!this.board[position - 1]) this.board[position - 1] = mark;
     else throw new Error('Location already marked!');
+
+    if (!this.board.includes(0)) {
+      this.draw = true;
+    }
 
     this.checkWinner();
 
