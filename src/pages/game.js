@@ -4,6 +4,7 @@ import { GameBoard } from '../lib/game';
 import { GlobalContext } from '../context/GlobalContext';
 import { database } from '../.firebase';
 import { leaveRoom, sendData } from '../functions';
+import ChatBox from '../components/ChatBox';
 
 function Game(props) {
   const { state } = useContext(GlobalContext);
@@ -92,6 +93,8 @@ function Game(props) {
           </div>
         ))}
       </div>
+
+      <ChatBox roomID={roomID} />
     </div>
   );
 }

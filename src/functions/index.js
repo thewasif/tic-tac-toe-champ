@@ -1,4 +1,5 @@
-import { database } from '../.firebase/index';
+import { database, firestore } from '../.firebase/index';
+import firebase from 'firebase/app';
 
 const createRoom = (obj) => {
   const id = new Date().getTime();
@@ -59,6 +60,9 @@ const leaveRoom = async (roomID, name) => {
   gameObj.winner = null;
   gameObj.board = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
+  // delete chat from database (which is off for now 😜)
+  // firestore.collection('chats').doc(roomID).delete();
+
   return new Promise((resolve, reject) => {
     database
       .ref(roomID)
@@ -78,4 +82,37 @@ const sendData = async (roomID, data) => {
   });
 };
 
-export { createRoom, joinRoom, sendData, leaveRoom };
+const createChatRoom = (roomID) => {
+  return new Promise((resolve, reject) => {
+    firestore
+      .collection('chats')
+      .doc(roomID)
+      .set({ messages: [] })
+      .then((res) => resolve(roomID))
+      .catch((error) => reject(error));
+  });
+};
+
+const sendMessage = (roomID, message, username) => {
+  const string = JSON.stringify({ message, sentBy: username });
+
+  return new Promise((resolve, reject) => {
+    firestore
+      .collection('chats')
+      .doc(roomID)
+      .update({
+        messages: firebase.firestore.FieldValue.arrayUnion(string),
+      })
+      .then(() => resolve(string))
+      .catch((error) => reject(error));
+  });
+};
+
+export {
+  createRoom,
+  joinRoom,
+  sendData,
+  leaveRoom,
+  createChatRoom,
+  sendMessage,
+};
