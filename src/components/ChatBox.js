@@ -11,8 +11,7 @@ function ChatBox({ roomID }) {
   useEffect(() => {
     (async () => {
       try {
-        let response = await createChatRoom(roomID);
-        console.log(response);
+        await createChatRoom(roomID);
       } catch (error) {
         console.log(error);
       }

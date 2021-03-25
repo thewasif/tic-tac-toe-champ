@@ -1,17 +1,101 @@
 .game {
   @include flex-center;
   flex-direction: column;
+
+  &__controls {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    & button {
+      @include button;
+      width: auto;
+      font-size: small;
+      margin: 10px 10px 0 10px;
+    }
+  }
+
+  &__players {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    color: $white;
+    font-family: $primary-font;
+    &--box {
+      @include flex-center;
+      flex-direction: column;
+      & p {
+        margin: 0;
+        font-size: large;
+      }
+      & h3 {
+        margin: 1.6rem 0 0 0;
+      }
+    }
+  }
+
+  &__message {
+    color: $white;
+    font-family: $primary-font;
+    letter-spacing: 1px;
+    text-align: center;
+    & h3 {
+      margin: 8px 0 0 0;
+    }
+    & p {
+      font-size: small;
+    }
+    & button {
+      @include button;
+      font-family: $primary-font;
+      font-size: small;
+      width: auto;
+    }
+  }
+
   &__board {
     display: grid;
     grid-template-columns: repeat(3, 70px);
     grid-template-rows: repeat(3, 70px);
-    margin-top: 3rem;
+    margin-top: 2rem;
 
     &--box {
-      border: solid 1px #333;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      border: solid 2px $white;
+      @include flex-center;
+      font-family: $primary-font;
+      color: $white;
+      font-size: 80px;
+
+      &:nth-child(1) {
+        border-top: none;
+        border-left: none;
+      }
+      &:nth-child(7) {
+        border-bottom: none;
+        border-left: none;
+      }
+      &:nth-child(4) {
+        border-left: none;
+      }
+
+      &:nth-child(3) {
+        border-top: none;
+        border-right: none;
+      }
+      &:nth-child(9) {
+        border-bottom: none;
+        border-right: none;
+      }
+      &:nth-child(6) {
+        border-right: none;
+      }
+
+      &:nth-child(2) {
+        border-top: none;
+      }
+      &:nth-child(8) {
+        border-bottom: none;
+      }
     }
   }
 }

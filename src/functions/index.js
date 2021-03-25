@@ -1,4 +1,4 @@
-import { database, firestore } from '../.firebase/index';
+import { database, firestore } from '../.firebase';
 import firebase from 'firebase/app';
 
 const createRoom = (obj) => {

@@ -69,19 +69,74 @@ function Game(props) {
     }
   };
 
+  const copyRoomID = () => {
+    navigator.clipboard
+      .writeText(roomID)
+      .then((res) => alert('ID copied!'))
+      .catch((e) => console.log(e));
+  };
+
   return (
     <div className='game'>
-      <h3>
-        Turn: <i>Player One</i>
-      </h3>
-      <button onClick={leave}>Leave Room</button>
-      {remoteData?.winner ? <h4>{remoteData.winner} is Winner</h4> : null}
-      {remoteData?.draw ? <h4>It's a draw :(</h4> : null}
-      {remoteData?.winner || remoteData?.draw ? (
-        <button onClick={restart}>Restart</button>
+      <div className='game__controls'>
+        <button onClick={leave}>Leave Room</button>
+        {remoteData?.winner || remoteData?.draw ? (
+          <button onClick={restart}>Restart</button>
+        ) : null}
+      </div>
+
+      <div className='game__players'>
+        <div className='game__players--box'>
+          <h3>Player One</h3>
+          <p>1</p>
+        </div>
+        <div className='game__players--box'>
+          <h3>Player Two</h3>
+          <p>3</p>
+        </div>
+      </div>
+
+      {remoteData ? (
+        <div className='game__message'>
+          {/* Statement for turn */}
+          {remoteData._turn &&
+          !remoteData.winner &&
+          !remoteData.draw &&
+          remoteData.PLAYER_ONE &&
+          remoteData.PLAYER_TWO ? (
+            <h3>
+              {remoteData._turn === state.username
+                ? 'Your'
+                : `${remoteData._turn}'s`}{' '}
+              turn!
+            </h3>
+          ) : null}
+
+          {/* Statement for winner */}
+          {remoteData.winner ? (
+            <h3>
+              {remoteData.winner === state.username ? 'You won!' : 'You lost!'}
+            </h3>
+          ) : null}
+
+          {/* Statement for draw */}
+          {remoteData.draw ? <h3>It's a draw!</h3> : null}
+
+          {/* Statement for room ID */}
+          {remoteData.PLAYER_ONE && remoteData.PLAYER_TWO ? null : (
+            <>
+              <p>
+                You are only one in this room. Share your room ID with someone
+                to play!
+              </p>
+              <button onClick={copyRoomID}>Copy Room ID</button>
+            </>
+          )}
+        </div>
       ) : null}
 
-      <h4>Room ID: {roomID}</h4>
+      {/* <h4>Room ID: {roomID}</h4> */}
+
       <div className='game__board'>
         {remoteData?.board.map((e, index) => (
           <div
