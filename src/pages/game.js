@@ -9,6 +9,7 @@ import ChatBox from '../components/ChatBox';
 function Game(props) {
   const { state } = useContext(GlobalContext);
   const [remoteData, setRemoteData] = useState(null);
+  const [wins, setWins] = useState({ me: 0, other: 0 });
 
   const history = useHistory();
 
@@ -20,6 +21,15 @@ function Game(props) {
       setRemoteData(snap.val());
     });
   }, [props.match.params.id]);
+
+  useEffect(() => {
+    if (remoteData?.winner) {
+      if (remoteData.winner === state.username)
+        setWins({ ...wins, me: wins.me + 1 });
+      else setWins({ ...wins, other: wins.other + 1 });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [remoteData?.winner, state.username]);
 
   const mark = async (index) => {
     if (remoteData._turn !== state.username) {
@@ -87,12 +97,16 @@ function Game(props) {
 
       <div className='game__players'>
         <div className='game__players--box'>
-          <h3>Player One</h3>
-          <p>1</p>
+          <h3>{remoteData?.PLAYER_ONE}</h3>
+          <p>
+            {state.username === remoteData?.PLAYER_ONE ? wins.me : wins.other}
+          </p>
         </div>
         <div className='game__players--box'>
-          <h3>Player Two</h3>
-          <p>3</p>
+          <h3>{remoteData?.PLAYER_TWO}</h3>
+          <p>
+            {state.username === remoteData?.PLAYER_TWO ? wins.me : wins.other}
+          </p>
         </div>
       </div>
 
