@@ -103,7 +103,9 @@ function Game(props) {
           </p>
         </div>
         <div className='game__players--box'>
-          <h3>{remoteData?.PLAYER_TWO}</h3>
+          <h3>
+            {remoteData?.PLAYER_TWO ? remoteData?.PLAYER_TWO : 'Waiting...'}
+          </h3>
           <p>
             {state.username === remoteData?.PLAYER_TWO ? wins.me : wins.other}
           </p>
@@ -163,7 +165,11 @@ function Game(props) {
         ))}
       </div>
 
-      <ChatBox roomID={roomID} />
+      {remoteData?.PLAYER_ONE && remoteData?.PLAYER_TWO ? (
+        <ChatBox roomID={roomID} />
+      ) : (
+        <div style={{ height: 150 }}></div>
+      )}
     </div>
   );
 }
