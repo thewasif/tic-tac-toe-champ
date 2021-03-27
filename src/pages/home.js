@@ -55,7 +55,9 @@ function Home() {
       <div className='home__btn-group'>
         <button onClick={onCreateRoomClick}>Create a New Room</button>
         <button onClick={onJoinRoomClick}>Join a Room</button>
-        <button>Play Offline </button>
+        <button onClick={() => alert('This feature is not available yet.')}>
+          Play Offline{' '}
+        </button>
 
         <Loader visible={loading} />
       </div>
