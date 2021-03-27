@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { createChatRoom, sendMessage } from '../functions';
 import { firestore } from '../.firebase';
 import { GlobalContext } from '../context/GlobalContext';
+import ScrollToBottom from 'react-scroll-to-bottom';
 
 function ChatBox({ roomID }) {
   const [message, setMessage] = useState('');
@@ -29,6 +30,7 @@ function ChatBox({ roomID }) {
   }, [roomID]);
 
   const send = async () => {
+    setMessage('');
     try {
       await sendMessage(roomID, message, state.username);
     } catch (error) {
@@ -37,9 +39,9 @@ function ChatBox({ roomID }) {
   };
 
   return (
-    <div>
+    <div className='chat'>
       <h5>Chat</h5>
-      <div>
+      <ScrollToBottom className='chat__messages'>
         {chat.map((message, index, array) => {
           const chat = JSON.parse(message);
           const prevChat = JSON.parse(array[index === 0 ? index : index - 1]);
@@ -56,9 +58,14 @@ function ChatBox({ roomID }) {
             </p>
           );
         })}
-      </div>
-      <div>
-        <input type='text' onChange={(e) => setMessage(e.target.value)} />
+      </ScrollToBottom>
+
+      <div className='chat__input'>
+        <input
+          type='text'
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
         <button onClick={send}>Send</button>
       </div>
     </div>

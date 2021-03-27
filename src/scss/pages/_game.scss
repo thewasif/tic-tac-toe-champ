@@ -1,7 +1,8 @@
 .game {
   @include flex-center;
   flex-direction: column;
-
+  justify-content: space-between;
+  height: 100vh;
   &__controls {
     display: flex;
     justify-content: space-between;

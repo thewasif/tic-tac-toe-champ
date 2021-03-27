@@ -1,0 +1,44 @@
+.chat {
+  width: 100%;
+  margin-top: 1.6rem;
+  display: flex;
+  flex-direction: column;
+
+  & h5 {
+    color: $white;
+    font-family: $secondary-font;
+    font-size: xx-large;
+    margin: 0;
+  }
+
+  &__messages {
+    width: 100%;
+    max-height: 120px;
+    min-height: 120px;
+    overflow: scroll;
+    & p {
+      margin: 0;
+      font-family: $source-pro;
+      color: white;
+    }
+  }
+
+  &__input {
+    display: flex;
+    & input {
+      outline: none;
+      padding: 1px 4px;
+      font-family: $source-pro;
+      background-color: transparent;
+      border: solid 1px #333;
+      margin: 4px;
+      flex: 2;
+      color: white;
+    }
+    & button {
+      @include button;
+      width: auto;
+      margin: 4px;
+    }
+  }
+}
