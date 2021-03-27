@@ -1,6 +1,13 @@
 .home {
-  @include flex-center;
-  flex-direction: column;
+  @include flex-center(column);
+  justify-content: flex-start;
+  background: rgba(40, 40, 40, 1)
+    radial-gradient(
+      ellipse at center top,
+      rgba(40, 80, 60, 1),
+      rgba(0, 20, 20, 0.6)
+    );
+  height: 100vh;
   &__title {
     font-family: $primary-font;
     color: $white;
@@ -13,5 +20,13 @@
       margin: 0.3rem;
       @include button;
     }
+  }
+}
+
+@media screen and (min-width: 400px) {
+  .home {
+    width: 360px;
+    height: 95vh;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
   }
 }

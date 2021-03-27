@@ -2,6 +2,12 @@
   @include flex-center;
   flex-direction: column;
   justify-content: space-between;
+  background: rgba(40, 40, 40, 1)
+    radial-gradient(
+      ellipse at center top,
+      rgba(40, 80, 60, 1),
+      rgba(0, 20, 20, 0.6)
+    );
   height: 100vh;
   &__controls {
     display: flex;
@@ -99,5 +105,14 @@
         border-bottom: none;
       }
     }
+  }
+}
+
+@media screen and (min-width: 400px) {
+  .game {
+    width: 360px;
+    height: 95vh;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    overflow: scroll;
   }
 }

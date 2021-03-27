@@ -18,10 +18,11 @@ body {
 html {
   width: 100vw;
   height: 100vh;
-  background: rgba(40, 40, 40, 1)
-    radial-gradient(
-      ellipse at center top,
-      rgba(40, 80, 60, 1),
-      rgba(0, 20, 20, 0.6)
-    );
+}
+
+@media screen and (min-width: 400px) {
+  body {
+    @include flex-center;
+    padding-top: 1rem;
+  }
 }
