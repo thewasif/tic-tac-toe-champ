@@ -5,10 +5,12 @@ import { GlobalContext } from '../context/GlobalContext';
 import { database } from '../.firebase';
 import { leaveRoom, sendData } from '../functions';
 import ChatBox from '../components/ChatBox';
+import ChatModal from '../components/ChatModal';
 
 function Game(props) {
   const { state } = useContext(GlobalContext);
   const [remoteData, setRemoteData] = useState(null);
+  const [visible, setVisible] = useState(true);
   const [wins, setWins] = useState({ me: 0, other: 0 });
 
   const history = useHistory();
@@ -30,6 +32,27 @@ function Game(props) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [remoteData?.winner, state.username]);
+
+  useEffect(() => {
+    if (remoteData?.winner)
+      setTimeout(
+        () =>
+          alert(
+            `${
+              remoteData.winner === state.username
+                ? 'You are doing good. Keep up the game, champ!'
+                : 'You lost. Try better next time!'
+            }`
+          ),
+        1000
+      );
+
+    if (remoteData?.draw) {
+      setTimeout(() => {
+        alert('It is a draw! You gave oponent a tough time!');
+      }, 1000);
+    }
+  }, [remoteData?.draw, remoteData?.winner, state.username]);
 
   const mark = async (index) => {
     if (remoteData._turn !== state.username) {
@@ -166,10 +189,13 @@ function Game(props) {
       </div>
 
       {remoteData?.PLAYER_ONE && remoteData?.PLAYER_TWO ? (
-        <ChatBox roomID={roomID} />
+        // <ChatBox roomID={roomID} />
+        <div style={{ height: 150 }}></div>
       ) : (
         <div style={{ height: 150 }}></div>
       )}
+
+      <ChatModal visible={visible} setVisible={setVisible} />
     </div>
   );
 }

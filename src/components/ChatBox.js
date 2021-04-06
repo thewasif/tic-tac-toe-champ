@@ -40,7 +40,6 @@ function ChatBox({ roomID }) {
 
   return (
     <div className='chat'>
-      <h5>Chat</h5>
       <ScrollToBottom className='chat__messages'>
         {chat.map((message, index, array) => {
           const chat = JSON.parse(message);
