@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
+import { FiSend } from 'react-icons/fi';
 import { createChatRoom, sendMessage } from '../functions';
 import { firestore } from '../.firebase';
 import { GlobalContext } from '../context/GlobalContext';
@@ -63,9 +64,13 @@ function ChatBox({ roomID }) {
         <input
           type='text'
           value={message}
+          onKeyDown={(e) => (e.key === 'Enter' ? send() : null)}
           onChange={(e) => setMessage(e.target.value)}
         />
-        <button onClick={send}>Send</button>
+        <button onClick={send}>
+          {' '}
+          <FiSend />{' '}
+        </button>
       </div>
     </div>
   );

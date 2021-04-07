@@ -1,16 +1,14 @@
 import { useEffect, useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+
 import { GameBoard } from '../lib/game';
 import { GlobalContext } from '../context/GlobalContext';
 import { database } from '../.firebase';
 import { leaveRoom, sendData } from '../functions';
 import ChatBox from '../components/ChatBox';
-import ChatModal from '../components/ChatModal';
-
 function Game(props) {
   const { state } = useContext(GlobalContext);
   const [remoteData, setRemoteData] = useState(null);
-  const [visible, setVisible] = useState(true);
   const [wins, setWins] = useState({ me: 0, other: 0 });
 
   const history = useHistory();
@@ -70,7 +68,7 @@ function Game(props) {
     game.mark(index);
 
     const data = JSON.parse(JSON.stringify(game));
-
+    console.log(data);
     try {
       await sendData(roomID, data);
     } catch (error) {
@@ -106,7 +104,7 @@ function Game(props) {
     navigator.clipboard
       .writeText(roomID)
       .then((res) => alert('ID copied!'))
-      .catch((e) => console.log(e));
+      .catch((e) => alert('Could not copy ID. Please copy it manually'));
   };
 
   return (
@@ -166,7 +164,7 @@ function Game(props) {
             <>
               <p>
                 You are only one in this room. Share your room ID with someone
-                to play!
+                to play! Your room ID is {roomID}
               </p>
               <button onClick={copyRoomID}>Copy Room ID</button>
             </>
@@ -190,12 +188,10 @@ function Game(props) {
 
       {remoteData?.PLAYER_ONE && remoteData?.PLAYER_TWO ? (
         // <ChatBox roomID={roomID} />
-        <div style={{ height: 150 }}></div>
+        <ChatBox roomID={roomID} />
       ) : (
         <div style={{ height: 150 }}></div>
       )}
-
-      <ChatModal visible={visible} setVisible={setVisible} />
     </div>
   );
 }
