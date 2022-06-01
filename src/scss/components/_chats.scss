@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   align-self: flex-end;
-
+  background: transparent;
   & h5 {
     color: $white;
     font-family: $secondary-font;
@@ -38,7 +38,9 @@
     }
     & button {
       @include button;
-      width: auto;
+      @include flex-center;
+      width: 46px;
+      height: 46px;
       margin: 4px;
       background-color: transparent;
     }

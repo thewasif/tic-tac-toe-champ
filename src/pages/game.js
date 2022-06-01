@@ -47,7 +47,7 @@ function Game(props) {
 
     if (remoteData?.draw) {
       setTimeout(() => {
-        alert('It is a draw! You gave oponent a tough time!');
+        alert('It is a draw! You gave opponent a tough time!');
       }, 1000);
     }
   }, [remoteData?.draw, remoteData?.winner, state.username]);
@@ -106,6 +106,18 @@ function Game(props) {
       .then((res) => alert('ID copied!'))
       .catch((e) => alert('Could not copy ID. Please copy it manually'));
   };
+
+  useEffect(() => {
+    window.onbeforeunload = (event) => {
+      const e = event || window.event;
+      // Cancel the event
+      e.preventDefault();
+      if (e) {
+        e.returnValue = ''; // Legacy method for cross browser support
+      }
+      return ''; // Legacy method for cross browser support
+    };
+  }, [])
 
   return (
     <div className='game'>

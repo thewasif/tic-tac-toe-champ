@@ -49,9 +49,9 @@ function ChatBox({ roomID }) {
           return (
             <p key={message}>
               {chat.sentBy !== prevChat.sentBy || index === 0 ? (
-                <>
+                <span>
                   <b>{chat.sentBy}</b> <br />
-                </>
+                </span>
               ) : null}
 
               {chat.message}
