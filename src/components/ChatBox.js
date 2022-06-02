@@ -50,7 +50,7 @@ function ChatBox({ roomID }) {
             <p key={message}>
               {chat.sentBy !== prevChat.sentBy || index === 0 ? (
                 <span>
-                  <b>{chat.sentBy}</b> <br />
+                  <b>{chat.sentBy}</b> • <i>{new Date(chat.time).toLocaleTimeString()}</i> <br />
                 </span>
               ) : null}
 
@@ -63,6 +63,7 @@ function ChatBox({ roomID }) {
       <div className='chat__input'>
         <input
           type='text'
+          placeholder={'Type...'}
           value={message}
           onKeyDown={(e) => (e.key === 'Enter' ? send() : null)}
           onChange={(e) => setMessage(e.target.value)}

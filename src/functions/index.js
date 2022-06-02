@@ -94,7 +94,7 @@ const createChatRoom = (roomID) => {
 };
 
 const sendMessage = (roomID, message, username) => {
-  const string = JSON.stringify({ message, sentBy: username });
+  const string = JSON.stringify({ message, sentBy: username, time: new Date() });
 
   return new Promise((resolve, reject) => {
     firestore
