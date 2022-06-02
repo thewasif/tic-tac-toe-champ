@@ -1,4 +1,4 @@
-var CACHE_NAME = 'tic-tac-toe';
+var CACHE_NAME = 'tic-tac-toe-v1';
 var urlsToCache = [];
 
 // Install a service worker
